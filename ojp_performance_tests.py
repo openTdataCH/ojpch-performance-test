@@ -295,7 +295,7 @@ def build_request(env: str, session: requests.Session, rt: str, test_directory: 
 
     # find the right template, depending on request type and mode (geo position or stop place ref or none):
     place_spec = ''
-    if rt in ('TR', 'SER'):
+    if rt in ('TR', 'SER','LIR'):
         place_spec = '_geopos' if parameter_true('use_geopos') else '_stopplaceref'
     request = Template(rt + place_spec + '.')  # add dot to avoid ambiguity.
 
@@ -323,6 +323,8 @@ def build_request(env: str, session: requests.Session, rt: str, test_directory: 
 
     if rt == 'LIR':
         request.replace('location_name', o_name)
+        request.replace('o_x', rnd(o_coords[0]))
+        request.replace('o_y', rnd(o_coords[1]))
 
     if rt == 'TIR':
         # do an extra, prior call of TR to get journey-ref:

@@ -1,0 +1,9 @@
+
+                <ojp:Via>
+                    <ojp:ViaPoint>
+                        <StopPointRef>${v_didok}</StopPointRef>
+                        <ojp:LocationName>
+                            <ojp:Text>${v_name}</ojp:Text>
+                        </ojp:LocationName>
+                    </ojp:ViaPoint>
+                </ojp:Via>

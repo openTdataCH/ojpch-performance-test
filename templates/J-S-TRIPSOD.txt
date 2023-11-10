@@ -1,0 +1,21 @@
+{
+  "origin": "${o_didok}",
+  "destination": "${d_didok}",
+  "forArrival": false,
+  "date": "${arrdep_date}",
+  "time": "${arrdep_time}",
+  "occupancyAverage": "ALL",
+  "mobilityFilter": {
+    "maxTransfers": 11,
+    "walkSpeed": 100,
+    "additionalTransferTime": 0,
+    "minTransferTime": 0,
+    "maxTransferTime": 0
+  },${via}
+  "realtimeMode": "REALTIME",
+  "pagingCursor": "string",
+  "optimisationMethod": {
+    "numberOfResultsBefore": 0,
+    "numberOfResultsAfter": 4
+  }
+}

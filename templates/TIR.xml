@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OJP xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.siri.org.uk/siri" version="1.0" xmlns:ojp="http://www.vdv.de/ojp" xsi:schemaLocation="http://www.siri.org.uk/siri ../ojp-xsd-v1.0/OJP.xsd">
+    <OJPRequest>
+        <ServiceRequest>
+            <RequestTimestamp>${timestamp}</RequestTimestamp>
+            <RequestorRef>ojpch-performance-test</RequestorRef>
+            <ojp:OJPTripInfoRequest>
+                <RequestTimestamp>${timestamp}</RequestTimestamp>
+                <ojp:JourneyRef>${journey_ref}</ojp:JourneyRef>
+                <ojp:OperatingDayRef>${op_day_ref}</ojp:OperatingDayRef>
+                <ojp:Params>
+                    <ojp:IncludeCalls>${tir_include_calls}</ojp:IncludeCalls>
+                    <ojp:IncludeTrackSections>${tir_include_track_sections}</ojp:IncludeTrackSections>
+                    <ojp:IncludeService>${tir_include_service}</ojp:IncludeService>
+                </ojp:Params>
+            </ojp:OJPTripInfoRequest>
+        </ServiceRequest>
+    </OJPRequest>
+</OJP>

@@ -1,0 +1,6 @@
+
+                <Via>
+                    <ViaPoint>
+                        <StopPointRef>${v_didok}</StopPointRef>
+                    </ViaPoint>
+                </Via>

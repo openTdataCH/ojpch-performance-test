@@ -35,15 +35,25 @@ par_dict = {}
 connections = None
 didok_for_places = None
 
-# logging to console and/or to file: - comment-out those lines not needed:
-LOG_FILE = './output/latest_log.log'
-LOG_HANDLERS = [
-    logging.StreamHandler(sys.stdout),
-    # logging.FileHandler(LOG_FILE, 'w', 'utf-8'),
-]
-logging.basicConfig(handlers=LOG_HANDLERS, level=logging.INFO, format='%(asctime)s: %(levelname)s: %(message)s')
 
+# constants:
 NA = 'n/a'
+LOG_FILE = os.path.join(config.OUTPUT, 'latest_log.txt')
+
+
+def prepare_directories():
+    for dir in (config.OUTPUT, config.DATA):
+        if not os.path.exists(dir):
+            os.mkdir(dir)
+
+
+def prepare_logging():
+    # logging to console (stdout) and/or to file: - comment-out those lines not needed in a given setup:
+    log_handlers = [
+        logging.StreamHandler(sys.stdout),
+        logging.FileHandler(LOG_FILE, 'w', 'utf-8'),
+    ]
+    logging.basicConfig(handlers=log_handlers, level=logging.INFO, format='%(asctime)s: %(levelname)s: %(message)s')
 
 
 def load_parameters():
@@ -94,12 +104,6 @@ def load_didok():
             if 'ch:1:sloid' in row[0]:
                 didoklist.append(row)
     logging.info(f"Loaded {len(didoklist)} stations/stops from DIDOK file {config.DIDOK_FILE}.")
-
-
-def prepare_directories():
-    for dir in (config.OUTPUT, config.DATA):
-        if not os.path.exists(dir):
-            os.mkdir(dir)
 
 
 def remove_old_test_directories():
@@ -495,13 +499,15 @@ def save_statistics(stats: list, test_directory: str):
 
 
 def copy_log_file(test_directory):
-    shutil.copy2(LOG_FILE, os.path.join(config.OUTPUT, test_directory, '_log.txt'))
+    if os.path.exists(LOG_FILE):
+        shutil.copy2(LOG_FILE, os.path.join(config.OUTPUT, test_directory, '_log.txt'))
 
 
 def process():
+    prepare_directories()
+    prepare_logging()
     parameter_file = load_parameters()
     set_random_seed()
-    prepare_directories()
     load_didok()
     load_connections_file()
     stats = []

@@ -1,14 +1,19 @@
 """Provides a class for handling templates such as XML files or XML fragments with placeholders.
 Loads a file matching the given name (without extension).
 
-Im no template folder is provided, the folder 'templates' will be used as default.
+If no template folder is provided, the folder 'templates' will be used by default.
 
-Usage example: t = Template('template_name') ; t.replace('ph1', 123).replace('ph2', 'abc') ; print(t) ;"""
+Usage example:
+t = Template('template_name')
+t.replace('ph1', 123).replace('ph2', 'abc')
+print(t)
+
+"""
 
 import os
 
-class Template:
 
+class Template:
     PH_PREFIX, PH_SUFFIX = '${', '}'
     DEFAULT_TEMPLATES_FOLDER = 'templates'
 

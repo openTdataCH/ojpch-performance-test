@@ -17,7 +17,7 @@ import statistics
 import sys
 import time
 import xml.dom.minidom
-from datetime import datetime, timedelta, date
+import datetime
 from utilities.template_util import Template
 
 import requests
@@ -116,7 +116,7 @@ def remove_old_test_directories():
 
 
 def create_test_directory(parameter_file):
-    test_directory = 'test_' + parameter_file.replace('.txt', '_') + datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+    test_directory = 'test_' + parameter_file.replace('.txt', '_') + datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
     os.mkdir(os.path.join(config.OUTPUT, test_directory))
     if parameter_true('save_details'):
         shutil.copy2(os.path.join(config.INPUT, parameter_file),
@@ -125,9 +125,13 @@ def create_test_directory(parameter_file):
     return test_directory
 
 
+def zulu_now():
+    return datetime.datetime.now(datetime.UTC).isoformat()[:26] + 'Z'
+
+
 def lir_for_stop(session, stop_name: str) -> str:
     lir_simple = Template('LIR_simple')
-    lir_simple.replace('timestamp', datetime.utcnow().isoformat() + 'Z')
+    lir_simple.replace('timestamp', zulu_now())
     lir_simple.replace('location_name', stop_name)
     response, ct = http_post(session, list(config.ENVIRONMENTS.keys())[0], str(lir_simple))
     resp_text = response.content.decode('utf-8')
@@ -220,8 +224,8 @@ def select_date_time_at_random() -> str:
     hours = random.randrange(hours_min, hours_max + 1)
     minutes = random.randrange(minutes_min, minutes_max + 1)
 
-    date_ahead = date.today() + timedelta(days=days_ahead)
-    return datetime(date_ahead.year, date_ahead.month, date_ahead.day, hours, minutes, 0).isoformat()
+    date_ahead = datetime.date.today() + datetime.timedelta(days=days_ahead)
+    return datetime.datetime(date_ahead.year, date_ahead.month, date_ahead.day, hours, minutes, 0).isoformat()
 
 
 def rnd(f: float, decimal_digits=6):
@@ -334,7 +338,7 @@ def build_request(env: str, session: requests.Session, rt: str, test_directory: 
         # do an extra, prior call of TR to get journey-ref:
         prior_request = Template('TR_stopplaceref')
         prior_request.replace('via', '')
-        prior_request.replace('timestamp', datetime.utcnow().isoformat() + 'Z')
+        prior_request.replace('timestamp', zulu_now())
         prior_request.replace('o_didok', o_didok)
         prior_request.replace('o_name', 'ORIGIN' if parameter_true('mask_location_name') else o_name)
         prior_request.replace('d_didok', d_didok)
@@ -367,7 +371,7 @@ def build_request(env: str, session: requests.Session, rt: str, test_directory: 
         request.replace('journey_ref', journey_ref)
         request.replace('op_day_ref', op_day_ref)
 
-    request.replace('timestamp', datetime.utcnow().isoformat() + 'Z')
+    request.replace('timestamp', zulu_now())
 
     # 'use_params' if True, several parameters are set and slow down the system
     apply_params_and_restrictions(request)

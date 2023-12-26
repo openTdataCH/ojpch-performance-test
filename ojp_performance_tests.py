@@ -7,6 +7,7 @@ See: https://github.com/openTdataCH/ojpch-performance-test
 """
 
 import csv
+import datetime
 import json
 import logging
 import math
@@ -17,12 +18,11 @@ import statistics
 import sys
 import time
 import xml.dom.minidom
-import datetime
-from utilities.template_util import Template
 
 import requests
 
 import configuration as config
+from utilities.template_util import Template
 
 # global variables:
 didoklist = []

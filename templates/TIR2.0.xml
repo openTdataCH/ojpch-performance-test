@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OJP xmlns="http://www.vdv.de/ojp" xmlns:siri="http://www.siri.org.uk/siri" version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vdv.de/ojp OJP_changes_for_v1.1/OJP.xsd">
+    <OJPRequest>
+        <siri:ServiceRequest>
+            <siri:RequestTimestamp>${timestamp}</siri:RequestTimestamp>
+            <siri:RequestorRef>MENTZRegTest</siri:RequestorRef>
+            <OJPTripInfoRequest>
+                <siri:RequestTimestamp>${timestamp}</siri:RequestTimestamp>
+                <siri:MessageIdentifier>TIR-1f</siri:MessageIdentifier>
+                <JourneyRef>${journey_ref}</JourneyRef>
+                <OperatingDayRef>${op_day_ref}</OperatingDayRef>
+                <Params>
+                    <IncludeCalls>${tir_include_calls}</IncludeCalls>
+                    <IncludeTrackSections>${tir_include_track_sections}</IncludeTrackSections>
+                    <IncludeService>${tir_include_service}</IncludeService>
+                </Params>
+            </OJPTripInfoRequest>
+        </siri:ServiceRequest>
+    </OJPRequest>
+</OJP>

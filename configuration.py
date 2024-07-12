@@ -22,7 +22,13 @@ ENVIRONMENTS = {
         "apiEndpoint": "https://api.opentransportdata.swiss/trias2020",
         "authBearerKey": "...",
         "supported_requests": {"TRIAS2020TR"}
-    }
+    },
+    "PROD2.0": {
+        "apiEndpoint": "https://api.opentransportdata.swiss/ojp20",
+        "authBearerKey": "... key can be obtained by registering at https://opentransportdata.swiss/de/ ...",
+        "supported_requests": {"TR2.0", "TIR2.0", "LIR2.0", "SER2.0"}
+    },
+
 }
 
 # URL of the DIDOK data file (list of stations/stops in Swiss public transport)

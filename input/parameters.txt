@@ -7,7 +7,7 @@
 number_of_requests = 10
 
 # environments to test; comma-separated list. e.g. TRIAS2020, PROD
-environments = TRIAS2020, PROD
+environments = TRIAS2020, PROD, PROD2.0
 
 # Type of OJP request: TR, LIR, SER, TIR, TRIAS2020TR ; comma-separated list.
 request_types = TR, LIR, TRIAS2020TR
@@ -68,6 +68,7 @@ ser_operator_ref = unknown
 ser_include_previous_calls = True
 ser_include_onward_calls = True
 ser_include_realtime_data = True
+ser_include_realtime_data2.0 = Full
 
 # OJP LIR RESTRICTIONS
 # one of these: stop, address, poi, coord, topographicPlace:

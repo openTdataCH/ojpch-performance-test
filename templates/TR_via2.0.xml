@@ -1,0 +1,9 @@
+
+                <Via>
+                    <ViaPoint>
+                        <StopPlaceRef>${v_didok}</StopPlaceRef>
+                        <Name>
+                            <Text>${v_name}</Text>
+                        </Name>
+                    </ViaPoint>
+                </Via>

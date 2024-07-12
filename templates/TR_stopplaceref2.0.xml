@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OJP xmlns="http://www.vdv.de/ojp" xmlns:siri="http://www.siri.org.uk/siri" version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vdv.de/ojp OJP_changes_for_v1.1/OJP.xsd">
+    <OJPRequest>
+        <siri:ServiceRequest>
+            <siri:RequestTimestamp>${timestamp}</siri:RequestTimestamp>
+            <siri:RequestorRef>ojpch-performance-test</siri:RequestorRef>
+            <OJPTripRequest>
+                <siri:RequestTimestamp>${timestamp}</siri:RequestTimestamp>
+                <siri:MessageIdentifier>TR-3a1</siri:MessageIdentifier>
+                <Origin>
+                    <PlaceRef>
+                        <siri:StopPointRef>${o_didok}</siri:StopPointRef>
+                        <Name>
+                            <Text>${o_name}</Text>
+                        </Name>
+                    </PlaceRef>
+                </Origin>
+                <Destination>
+                    <PlaceRef>
+                        <siri:StopPointRef>${d_didok}</siri:StopPointRef>
+                        <Name>
+                            <Text>${d_name}</Text>
+                        </Name>
+                    </PlaceRef>
+                </Destination>${via}
+                <Params>
+                    <NumberOfResults>${tr_number_of_results}</NumberOfResults>
+                    <IncludeTrackSections>${tr_include_track_sections}</IncludeTrackSections>
+                    <IncludeLegProjection>${tr_include_leg_projection}</IncludeLegProjection>
+                    <IncludeTurnDescription>${tr_include_turn_description}</IncludeTurnDescription>
+                    <IncludeIntermediateStops>${tr_include_intermediate_stops}</IncludeIntermediateStops>
+                </Params>
+            </OJPTripRequest>
+        </siri:ServiceRequest>
+    </OJPRequest>
+</OJP>

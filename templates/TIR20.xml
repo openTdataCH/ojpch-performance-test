@@ -3,10 +3,9 @@
     <OJPRequest>
         <siri:ServiceRequest>
             <siri:RequestTimestamp>${timestamp}</siri:RequestTimestamp>
-            <siri:RequestorRef>MENTZRegTest</siri:RequestorRef>
+            <siri:RequestorRef>ojpch-performance-test</siri:RequestorRef>
             <OJPTripInfoRequest>
                 <siri:RequestTimestamp>${timestamp}</siri:RequestTimestamp>
-                <siri:MessageIdentifier>TIR-1f</siri:MessageIdentifier>
                 <JourneyRef>${journey_ref}</JourneyRef>
                 <OperatingDayRef>${op_day_ref}</OperatingDayRef>
                 <Params>

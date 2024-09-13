@@ -6,7 +6,6 @@
             <siri:RequestorRef>ojpch-performance-test</siri:RequestorRef>
             <OJPTripRequest>
                 <siri:RequestTimestamp>${timestamp}</siri:RequestTimestamp>
-                <siri:MessageIdentifier>TR-3a1</siri:MessageIdentifier>
                 <Origin>
                     <PlaceRef>
                         <GeoPosition>
@@ -17,6 +16,7 @@
                             <Text>origin</Text>
                         </Name>
                     </PlaceRef>
+                    <DepArrTime>${arrdep}</DepArrTime>
                 </Origin>
                 <Destination>
                     <PlaceRef>

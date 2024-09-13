@@ -4,5 +4,6 @@ local_configuration.py
 .idea/**
 __pycache__/**
 /utilities/__pycache__/**
+/stop_points/**
 /output/**
-/data/**
+/test_parameters/parameters*.txt

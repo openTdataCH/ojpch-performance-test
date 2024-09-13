@@ -13,7 +13,7 @@
                             <Latitude>${o_y}</Latitude>
                         </ojp:GeoPosition>
                         <ojp:LocationName>
-                            <ojp:Text>Name</ojp:Text>
+                            <ojp:Text>${o_name}</ojp:Text>
                         </ojp:LocationName>
                     </ojp:PlaceRef>
                     <ojp:DepArrTime>${arrdep}</ojp:DepArrTime>

@@ -9,8 +9,9 @@ number_of_requests = 10
 # environments to test; comma-separated list. e.g. TRIAS2020, PROD
 environments = TRIAS2020, PROD, PROD2.0
 
-# Type of OJP request: TR, LIR, SER, TIR, TRIAS2020TR ; comma-separated list.
-request_types = TR, LIR, TRIAS2020TR
+# Type of OJP request: TR10, LIR10, SER10, TIR10, TR20, LIR20, SER20, TIR20, TRIAS2020TR, J-S-TRIPSOD
+# append: "+"=test with parameters, "-"=test without parameters (default), "*"= test without and with parameters.
+request_types = TR10, TR20, LIR10, LIR20, SER10, SER20, TIR10, TIR20, TRIAS2020TR
 
 # For TR and SER only: use "Geo position" (coordinates) rather than "Stop Place Ref" (didok stops)?
 use_geopos = False
@@ -37,7 +38,7 @@ sleep_time = 0.2
 
 
 # DEPARTURE DATE/TIME SETTINGS:
-# define ranges for the depature date (days ahead of today) and time of the day:
+# define ranges for the departure date (days ahead of today) and time of the day:
 days_ahead_min = 0
 days_ahead_max = 1
 hours_min = 7
@@ -47,8 +48,6 @@ minutes_max = 59
 
 
 # OJP PARAMETERS / RESTRICTIONS SECTION:
-# "MAIN SWITCH": Use some extra parameters at all?
-use_params = True
 
 # do not use location names in TR and SER, use "ORIGIN" or "DESTINATION" instead:
 mask_location_name = False
@@ -87,15 +86,10 @@ trias2020tr_include_track_sections = True
 trias2020tr_include_leg_projection = True
 trias2020tr_include_intermediate_stops = True
 
-
 # Run test based on a file with given connections, a CSV with fields "Check,From,To,Via" (station names) rather than random:
 use_connections_file = False
-connections_file = connections-example.csv
+connections_file = connections.csv
 connections_delimiter = ;
-
-# MISCELLANEOUS
-# download DIDOK stations/stops from opentransportdata.swiss
-download_didok_data = False
 
 # delete directories of previous tests first
 remove_old_test_directories = False

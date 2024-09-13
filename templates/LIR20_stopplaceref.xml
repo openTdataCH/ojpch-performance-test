@@ -6,7 +6,6 @@
             <siri:RequestorRef>ojpch-performance-test</siri:RequestorRef>
             <OJPLocationInformationRequest>
                <siri:RequestTimestamp>${timestamp}</siri:RequestTimestamp>
-                <siri:MessageIdentifier>LIR-1c</siri:MessageIdentifier>
                 <InitialInput>
                     <Name>${location_name}</Name>
                 </InitialInput>

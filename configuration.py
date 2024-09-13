@@ -1,43 +1,44 @@
-# CONFIGURATION:
-# - basic, constant configuration is done here
-# - secrets, keys, and other local adaptation is done in the local_configuration.py file (which is not in github)
-# - runtime parameters for test runs are done in ./input/parameter.txt files;
-#     - instead of 'parameter.txt', a different name may be provided as command-line argument when starting the test.
+"""Basic configuration file, which defines folders, URLs, API keys, etc. that remain constant for all tests.
+Basic, constant configuration is done here.
+The file (as loaded from github) contains some of the currently known system URLs, requests, etc.,
+and some "reosonable" config of sub-directory names, default parameter name, etc.
+
+In a local setup, this file may be complemented with a local_configuration.py module,
+which supersedes some of the config values, especially secrets, etc.
+local_configuration.py MUST NOT BE COMMITED to github.
+
+Parameters for individual test series, finally, are set up in a "test_parameters" file.
+"""
 
 # sub-directories and parameter file:
-DATA = 'data'
-TEMPLATES = 'templates'
-INPUT = 'input'
-INPUT_PARAMETERS_DEFAULT = 'parameters.txt'
-OUTPUT = 'output'
+FOLDERS = {
+    "output": "output",
+    "stop_points": "stop_points",
+    "templates": 'templates',
+    "test_parameters": "test_parameters",
+}
 
 # OJP service environments, each with a short name like "PROD":
 ENVIRONMENTS = {
-    "PROD": {
+    "OJP20PROD": {
+        "apiEndpoint": "https://api.opentransportdata.swiss/ojp20",
+        "authBearerKey": "... key can be obtained by registering at https://opentransportdata.swiss/de/ ...",
+        "supported_requests": {"TR20", "TIR20", "LIR20", "SER20"}
+    },
+    "OJP10PROD": {
         "apiEndpoint": "https://api.opentransportdata.swiss/ojp2020",
         "authBearerKey": "... key can be obtained by registering at https://opentransportdata.swiss/de/ ...",
-        "supported_requests": {"TR", "TIR", "LIR", "SER"}
+        "supported_requests": {"TR10", "TIR10", "LIR10", "SER10"}
     },
     "TRIAS2020": {
         "apiEndpoint": "https://api.opentransportdata.swiss/trias2020",
         "authBearerKey": "...",
         "supported_requests": {"TRIAS2020TR"}
-    },
-    "PROD2.0": {
-        "apiEndpoint": "https://api.opentransportdata.swiss/ojp20",
-        "authBearerKey": "... key can be obtained by registering at https://opentransportdata.swiss/de/ ...",
-        "supported_requests": {"TR2.0", "TIR2.0", "LIR2.0", "SER2.0"}
-    },
-
+    }
 }
 
-# URL of the DIDOK data file (list of stations/stops in Swiss public transport)
-DIDOK_PERMALINK = "https://opentransportdata.swiss/en/dataset/didok/resource_permalink/verkehrspunktelemente_actualdate.csv"
-DIDOK_FILE = "verkehrspunktelemente_actualdate.csv"
-
-# lookup file for didok codes of named places:
-DIDOK_FOR_PLACES = "didok_for_places.json"
-
+# URL of the Service Points data file (list of stations/stops in Swiss public transport)
+SP_PERMALINK = "https://opentransportdata.swiss/de/dataset/service-points-actual-date/permalink"
 
 # if there exists a local_configuration, it is used and may supersede some of the above constants.
 try:

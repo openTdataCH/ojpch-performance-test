@@ -9,7 +9,7 @@ Local configuration that will be imported at the end of configuration.py:
 
 # configuration and OAuth2 token for Journey Service (J-S PROD service):
 # https://developer.sbb.ch/apis/journey-service/documentation
-from utilities.oauth_util import OAuth2Helper
+from utilities.oauth_utils import OAuth2Helper
 
 J_S_URL_TOKEN = "... URL of the OAuth2 Authorization Server to obtain a token."
 J_S_SCOPE = "... scope to obtain a token ..."
@@ -23,10 +23,15 @@ j_s_token = oauth_helper.get_token()
 
 # environments - will supersede the variable in configuration.py:
 ENVIRONMENTS = {
-    "PROD": {
+    "OJP10PROD": {
         "apiEndpoint": "https://api.opentransportdata.swiss/ojp2020",
         "authBearerKey": ".... ",
-        "supported_requests": {"TR", "TIR", "LIR", "SER"}
+        "supported_requests": {"TR10", "TIR10", "LIR10", "SER10"}
+    },
+    "OJP20PROD": {
+        "apiEndpoint": "https://api.opentransportdata.swiss/ojp20",
+        "authBearerKey": ".... ",
+        "supported_requests": {"TR20", "TIR20", "LIR20", "SER20"}
     },
     "TRIAS2020": {
         "apiEndpoint": "https://api.opentransportdata.swiss/trias2020",
@@ -39,3 +44,4 @@ ENVIRONMENTS = {
         "supported_requests": {"J-S-TRIPSOD"}
     }
 }
+

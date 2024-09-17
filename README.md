@@ -3,6 +3,10 @@
 Performance tests (response time measurements) for the Swiss Open Journey Planner (OJP) service,
 supporting OJP versions 1.0 and 2.0, plus TRIAS 2020 and J-S for comparison purposes.
 
+(!) Note (2024-09-17): Current version has bugs when configured in mode
+use_connections_file = False
+Will be fixed end of September 2024.
+
 ## Introduction
 This repository provides a Python 3 test script for running series of tests on the services mentioned above.
 

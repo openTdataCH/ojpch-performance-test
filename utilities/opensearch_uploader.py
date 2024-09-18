@@ -19,7 +19,7 @@ def upload_stats_to_opensearch():
                 "time": stat["timestamp"],
                 "environment": stat["environment"],
                 "request": stat["request"],
-                "use_parameters": str(stat["use_parameters"]),
+                "use_parameters": str(stat["use_parameters"]).lower(),
                 "ok": stat["n200"],
                 "not_ok": stat["n"] - stat["n200"],
                 "p50": stat["ctp50"],

@@ -13,6 +13,7 @@ from utilities import object_store as store
 
 
 def upload_stats_to_opensearch():
+    successful = 0
     try:
         for stat in store.fetch("stats"):
             stat4os = {
@@ -26,11 +27,21 @@ def upload_stats_to_opensearch():
                 "p90": stat["ctp90"],
                 "average": stat["ctavg"]
             }
-            upload_data_to_opensearch(stat4os)
+            status_code, reason = upload_data_to_opensearch(stat4os)
+            if status_code < 300:
+                successful += 1
+            elif status_code == 400:
+                logging.warning(f"OpenSearch returns 400 Bad Request:\n{stat4os}")
+            else:
+                logging.warning(f"OpenSearch returns {status_code} {reason}.")
 
-        logging.info(f"OpenSearch: {len(store.fetch('stats'))} tests stat JSONs uploaded to {config.OPENSEARCH['name']}.")
+        n_tests = len(store.fetch('stats'))
+        if successful == n_tests:
+            logging.info(f"OpenSearch: all {n_tests} tests successfully uploaded to {config.OPENSEARCH['name']}.")
+        else:
+            logging.warning(f"OpenSearch: {n_tests-successful} uploads FAILED, {successful} successful on {config.OPENSEARCH['name']}.")
     except Exception as e:
-        logging.info(f"upload_stats_to_opensearch() fails, no working config currently: {str(e)}:")
+        logging.warning(f"upload_stats_to_opensearch() fails, no working config currently: {str(e)}:")
 
 
 def upload_data_to_opensearch(data):
@@ -41,6 +52,6 @@ def upload_data_to_opensearch(data):
         data=json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False),
         auth=(config.OPENSEARCH['username'], config.OPENSEARCH['password'])
     )
+    return response.status_code, response.reason
 
-    if response.status_code >= 300:
-        logging.warning(f"upload_data_to_opensearch(): FAILED upload: {response.status_code} {response.reason}")
+

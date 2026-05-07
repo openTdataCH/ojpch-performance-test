@@ -38,7 +38,7 @@ ENVIRONMENTS = {
 }
 
 # URL of the Service Points data file (list of stations/stops in Swiss public transport)
-SP_PERMALINK = "https://opentransportdata.swiss/de/dataset/service-points-actual-date/permalink"
+SP_PERMALINK = "https://data.opentransportdata.swiss/dataset/service-point-v2/resource_permalink/actual-date-swiss-service-point.csv"
 
 # if there exists a local_configuration, it is used and may supersede some of the above constants.
 try:

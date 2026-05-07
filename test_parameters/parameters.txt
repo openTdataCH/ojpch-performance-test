@@ -7,7 +7,7 @@
 number_of_requests = 10
 
 # environments to test; comma-separated list. e.g. TRIAS2020, PROD
-environments = TRIAS2020, PROD, PROD2.0
+environments = TRIAS2020, OJP20PROD
 
 # Type of OJP request: TR10, LIR10, SER10, TIR10, TR20, LIR20, SER20, TIR20, TRIAS2020TR, J-S-TRIPSOD
 # append: "+"=test with parameters, "-"=test without parameters (default), "*"= test without and with parameters.

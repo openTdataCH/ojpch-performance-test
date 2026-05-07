@@ -3,13 +3,13 @@ Loads the data to folder "stop_points".
 
 This is a replacement for the old, decommissioned DIDOK data.
 """
-import os
-import requests
-import shutil
 import csv
+import os
+
+import requests
+
 import configuration as config
 from utilities import logging_wrapper as logging
-
 
 sp_dict = {}
 sp_columns = None
@@ -28,23 +28,19 @@ def _load_sp():
     global sp_dict, sp_columns, keys
 
     sp_dir = config.FOLDERS["stop_points"]
+    sp_path = os.path.join(sp_dir, 'sp.csv')
     if not os.path.exists(sp_dir):
         os.mkdir(sp_dir)
 
     if len([f for f in os.listdir(sp_dir) if f.endswith(".csv")]) < 1:
         sp_data = requests.get(config.SP_PERMALINK)
-        sp_zip_file = os.path.join(sp_dir, 'sp_temp.zip')
-        with open(sp_zip_file, mode='wb') as file:
+        with open(sp_path, mode='wb') as file:
             file.write(sp_data.content)
         logging.info(
-            f"Loaded service points zip file from {config.SP_PERMALINK}, {len(sp_data.content)} bytes.")
-        shutil.unpack_archive(sp_zip_file, sp_dir)
-        os.remove(sp_zip_file)
-        logging.info(f"Unzipped it to folder {sp_dir}.")
+            f"Loaded service points csv file from {config.SP_PERMALINK}, {len(sp_data.content)} bytes.")
+        logging.info(f"Wrote file to {sp_path}.")
 
-    sp_file = os.listdir(sp_dir)[0]
-    sp_path = os.path.join(sp_dir, sp_file)
-    if not os.path.exists(sp_path) or sp_file[-4:] != ".csv":
+    if not os.path.exists(sp_path) or sp_path[-4:] != ".csv":
         raise f"ERROR: load_sp() failed, has no valid CSV service points file at {sp_path}"
 
     with open(file=sp_path, newline='', encoding='utf-8-sig') as csv_file:

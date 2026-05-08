@@ -6,6 +6,7 @@ import math
 import random
 from datetime import datetime, timedelta, date
 
+import configuration
 from utilities import logging_wrapper as logging
 from utilities import object_store as store
 from utilities import stop_points
@@ -15,7 +16,7 @@ from utilities.http_utils import http_post
 from utilities.math_utils import rnd
 from utilities.parameters import param, param_true
 from utilities.statistics_utils import NA
-from utilities.string_utils import find_xml_element
+from utilities.string_utils import find_xml_element, find_xml_element_plus
 from utilities.string_utils import pretty_print_xml
 from utilities.template_util import Template
 
@@ -27,11 +28,11 @@ def build_request(call_number: int) -> (list, str):
     d_name, d_didok, d_coords = NA, NA, (0.0, 0.0)
     v_name, v_didok, v_coords = NA, NA, (0.0, 0.0)
 
-    arrdeptime = select_date_time_at_random() if rt in ('TR10', 'TR20', 'SER10', 'SER20', 'TIR10', 'TIR20', 'TRIAS2020TR', 'J-S-TRIPSOD') else NA
+    arrdeptime = select_date_time_at_random() if rt in ('TR10', 'TR20', 'SER10', 'SER20', 'TIR10', 'TIR20', 'TRIAS2020TR', 'J-S-TRIPSOD', 'TRR20') else NA
 
     # choose random origin (and destination for TR) from didok:
     o_name, o_didok, o_coords = select_stop_point('origin', call_number)
-    if rt in ('TR10', 'TR20', 'TIR10', 'TIR20', 'TRIAS2020TR', 'J-S-TRIPSOD'):
+    if rt in ('TR10', 'TR20', 'TIR10', 'TIR20', 'TRIAS2020TR', 'J-S-TRIPSOD', 'TRR20'):
         while True:
             d_name, d_didok, d_coords = select_stop_point('destination', call_number)
             if o_didok != d_didok:
@@ -81,9 +82,11 @@ def build_request(call_number: int) -> (list, str):
         request.replace('o_x', rnd(o_coords[0]))
         request.replace('o_y', rnd(o_coords[1]))
 
-    if rt in ('TIR10', 'TIR20'):
-        # do an extra, prior call of TR to get journey-ref:
+    if rt in ('TIR10', 'TIR20', 'TRR20'):
         ojp_vers = rt[3:5]
+        # uses env if it supports TripRequest, if not uses the alternateEnv for TripRequest
+        tr_env = env if f'TR{ojp_vers}' in configuration.ENVIRONMENTS[env]['supported_requests'] else configuration.ENVIRONMENTS[env]['alternateEnvironmentName']
+        # do an extra, prior call of TR to get journey-ref:
         prior_request = Template(f'TR{ojp_vers}_stopplaceref')
         prior_request.replace('via', '')
         prior_request.replace('timestamp', utc_now_iso())
@@ -97,27 +100,42 @@ def build_request(call_number: int) -> (list, str):
         prior_request.replace('tr_include_turn_description', 'false')
         prior_request.replace('tr_include_intermediate_stops', 'false')
         prior_request.replace('tr_include_leg_projection', 'false')
-        prior_response, prior_calc_time = http_post(env, str(prior_request))
+        prior_response, prior_calc_time = http_post(tr_env, str(prior_request))
         sleep_to_avoid_quota_exceeding()
 
         prior_resp_text = prior_response.content.decode('utf-8')
-        op_day_ref = find_xml_element(prior_resp_text, '<ojp:OperatingDayRef>' if ojp_vers == "10" else '<OperatingDayRef>')
-        journey_ref = find_xml_element(prior_resp_text, '<ojp:JourneyRef>' if ojp_vers == "10" else '<JourneyRef>')
-        logging.log1connection(nr=call_number, env=env, req=f"prior TR{ojp_vers}", a=o_name, b=d_name, via="",
-                               ms=round(1000*prior_calc_time), bytes=len(prior_response.content),
-                               code_n_reason=f"{prior_response.status_code} {prior_response.reason}",
-                               message=f"op_day_ref={op_day_ref}, journey_ref={journey_ref}")
-        if not (op_day_ref and journey_ref):
-            logging.info('-  ... op_day_ref and/or journey_ref are invalid - repeat.')
-            return result, None
-
         if param_true('save_details'):
-            save_file(store.fetch("test_directory"), f"{env}_TIR_{call_number:04d}_prior_TR_request.xml", prior_request)
+            save_file(store.fetch("test_directory"), f"{env}_{rt}_{call_number:04d}_prior_TR_request.xml", prior_request)
             save_file(store.fetch("test_directory"),
-                      f"{env:s}_TIR_{call_number:04d}_prior_TR_response_{prior_response.status_code}.xml",
+                      f"{env:s}_{rt}_{call_number:04d}_prior_TR_response_{prior_response.status_code}.xml",
                       pretty_print_xml(prior_resp_text))
-        request.replace('journey_ref', journey_ref)
-        request.replace('op_day_ref', op_day_ref)
+        if rt in ('TIR10', 'TIR20'):
+            op_day_ref = find_xml_element(prior_resp_text, '<ojp:OperatingDayRef>' if ojp_vers == "10" else '<OperatingDayRef>')
+            journey_ref = find_xml_element(prior_resp_text, '<ojp:JourneyRef>' if ojp_vers == "10" else '<JourneyRef>')
+            if param_true('log_pre_requests'):
+                logging.log1connection(nr=call_number, env=tr_env, req=f"prior TR{ojp_vers}", a=o_name, b=d_name, via="",
+                                       ms=round(1000*prior_calc_time), bytes=len(prior_response.content),
+                                       code_n_reason=f"{prior_response.status_code} {prior_response.reason}",
+                                       message=f"op_day_ref={op_day_ref}, journey_ref={journey_ref}")
+                if not (op_day_ref and journey_ref):
+                    logging.info('-  ... op_day_ref and/or journey_ref are invalid - repeat.')
+                    return result, None
+
+            request.replace('journey_ref', journey_ref)
+            request.replace('op_day_ref', op_day_ref)
+        else:
+            message = None
+
+            trip_response, _ = find_xml_element_plus(prior_resp_text, 'TripResult')
+            if not trip_response:
+                message = "TripResult not found in prior response."
+            if param_true('log_pre_requests'):
+                logging.log1connection(nr=call_number, env=tr_env, req=f"prior TR{ojp_vers}", a=o_name, b=d_name, via="",
+                                       ms=round(1000*prior_calc_time), bytes=len(prior_response.content),
+                                       code_n_reason=f"{prior_response.status_code} {prior_response.reason}", message=message)
+            if message is not None:
+                return result, None
+            request.replace('trr_trip_result',trip_response)
 
     request.replace('timestamp', utc_now_iso())
 
@@ -193,7 +211,7 @@ def select_stop_point(role: str, call_number: int) -> (str, int, tuple):
                 return sp.name, sp.number, (sp.lon, sp.lat)
         return NA, NA, (0.0, 0.0)
     else:
-        keys = stop_points.keys()
+        keys = stop_points.keys
         sp = stop_points.get_by_name(keys[random.randrange(0, len(keys))])
         sp_coords = [sp.lon, sp.lat]
         if param_true('use_geopos'):

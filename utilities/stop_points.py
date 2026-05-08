@@ -16,8 +16,7 @@ sp_columns = None
 keys = None
 
 
-def keys():
-    return keys
+
 
 
 def get_by_name(name: str):

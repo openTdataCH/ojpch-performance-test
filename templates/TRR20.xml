@@ -1,0 +1,19 @@
+<OJP xmlns="http://www.vdv.de/ojp" xmlns:siri="http://www.siri.org.uk/siri" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vdv.de/ojp https://raw.githubusercontent.com/VDVde/OJP/refs/heads/release/2.0/OJP.xsd" version="2.0">
+    <OJPRequest>
+        <siri:ServiceRequest>
+            <siri:RequestTimestamp>${timestamp}</siri:RequestTimestamp>
+            <siri:RequestorRef>ojpch-performance-test</siri:RequestorRef>
+            <OJPTripRefineRequest>
+                <siri:RequestTimestamp>${timestamp}</siri:RequestTimestamp>
+                <RefineParams>
+                    <IncludeLegProjection>${tr_include_leg_projection}</IncludeLegProjection>
+                    <IncludeIntermediateStops>${tr_include_intermediate_stops}</IncludeIntermediateStops>
+                    <IncludeTurnDescription>${tr_include_turn_description}</IncludeTurnDescription>
+                </RefineParams>
+                <TripResult>
+                    ${trr_trip_result}
+                </TripResult>
+            </OJPTripRefineRequest>
+        </siri:ServiceRequest>
+    </OJPRequest>
+</OJP>

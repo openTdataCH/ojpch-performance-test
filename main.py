@@ -19,7 +19,8 @@ from utilities.parameters import param, param_true
 from utilities.request_builder import build_request, request_type_w_or_wo_parameters_selector
 from utilities.statistics_utils import save_statistics, compute_statistics, save_results_table_csv_file, \
     new_results_table
-from utilities.string_utils import pretty_print_xml, pretty_print_json
+from utilities.string_utils import pretty_print_xml, pretty_print_json, find_all_xml_elements, \
+    find_xml_element_plus
 
 
 def send_request(call_number):
@@ -57,9 +58,18 @@ def send_request(call_number):
             ending = 'json' if is_json else 'xml'
             save_file(store.fetch("test_directory"), f"{env}_{rt}{plus}_{call_number:04d}_response_{response.status_code}.{ending}", text)
 
+        advertised_callc_time, _ = find_xml_element_plus(resp_text, 'CalcTime')
+
+        message = f"Advertised calc time:{advertised_callc_time}"
+
+        geops_call_times = find_all_xml_elements(resp_text, 'GeopsCallTime')
+        geops_max_call_time = max([int(e) for e in geops_call_times], default=None)
+        if geops_max_call_time:
+            message += f" / Geops max call time:{geops_max_call_time}"
+
         a, b, via = res[3], res[7], res[11]
         logging.log1connection(nr=call_number, env=env, req=rt_plus, a=a, b=b, via=via, ms=round(1000*calc_time),
-                               bytes=len(response.content), code_n_reason=code_n_reason)
+                               bytes=len(response.content), code_n_reason=code_n_reason, message=message)
     return calc_time
 
 

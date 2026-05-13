@@ -160,7 +160,7 @@ In our script, this is also generated randomly; the range of dates and times
 can be defined with the parameters `days_ahead_min`, `days_ahead_max`, `hours_min`, `hours_max`,
 `minutes_min`, and `minutes_max`.
 
-### Request Types (TR, LIR, SER, TIR)
+### Request Types (TR, LIR, SER, TIR, TRR)
 Currently, these request types are supported:
 - **Trip Request (TR)**: the basic trip-planning service for a trip from A to B.
 - **Location Information Request (LIR)**: look-up of locations (stops, places) matching a given name.
@@ -169,6 +169,7 @@ Currently, these request types are supported:
 For this request, a prior call of a TR is needed, in which a trip A to B
 is computed and for each timed leg, a `journey_ref` and `op_day_ref` are returned.
 In our script, the first `journey_ref` and `op_day_ref` found in the response are used.
+- **Trip Refinement Request (TRR)**: Refine a trip request, a Trip from a TR is needed, this script will make a TR for each TRR
 
 For more details, see: https://opentransportdata.swiss/en/cookbook/open-journey-planner-ojp/
 

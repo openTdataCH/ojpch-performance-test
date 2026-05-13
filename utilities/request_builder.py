@@ -86,7 +86,7 @@ def build_request(call_number: int) -> (list, str):
         ojp_vers = rt[3:5]
         # uses env if it supports TripRequest, if not uses the alternateEnv for TripRequest
         tr_env = env if f'TR{ojp_vers}' in configuration.ENVIRONMENTS[env]['supported_requests'] else configuration.ENVIRONMENTS[env]['alternateEnvironmentName']
-        # do an extra, prior call of TR to get journey-ref:
+        # do an extra, prior call of TR to get journey-ref or trip:
         prior_request = Template(f'TR{ojp_vers}_stopplaceref')
         prior_request.replace('via', '')
         prior_request.replace('timestamp', utc_now_iso())

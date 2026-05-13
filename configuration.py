@@ -34,6 +34,12 @@ ENVIRONMENTS = {
         "apiEndpoint": "https://api.opentransportdata.swiss/trias2020",
         "authBearerKey": "...",
         "supported_requests": {"TRIAS2020TR"}
+    },
+    "TRROnly": {
+        "apiEndpoint": "...",
+        "authBearerKey": "...",
+        "supported_requests": {"TRR20"},
+        "alternateEnvironmentName": "OJP20PROD" # only for TRR and TIR, if envoironment doesn't support a TR, the script will use the alternate environment to make the TR
     }
 }
 

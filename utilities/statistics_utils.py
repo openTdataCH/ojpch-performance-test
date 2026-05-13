@@ -49,7 +49,7 @@ def compute_statistics():
 
 def save_statistics():
     stat = 'Test Statistics'
-    stat += '\nService                                      number of tests                                                   calc. time [ms]'
+    stat += '\nService                                      number of tests                                                    call time [ms]'
     stat += '\nenvironment  request type        total         ok     not_ok        min    average        p50        p90        p95        max'
     for e in store.fetch("stats"):
         rt_plus = e['request'] + ("+" if e['use_parameters'] else "")

@@ -60,7 +60,7 @@ def send_request(call_number):
 
         advertised_callc_time, _ = find_xml_element_plus(resp_text, 'CalcTime')
 
-        message = f"Advertised calc time:{advertised_callc_time}"
+        message = f"Advertised calc time:{advertised_callc_time}" if advertised_callc_time else None
 
         geops_call_times = find_all_xml_elements(resp_text, 'GeopsCallTime')
         geops_max_call_time = max([int(e) for e in geops_call_times], default=None)

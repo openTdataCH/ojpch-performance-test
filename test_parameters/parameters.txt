@@ -9,9 +9,9 @@ number_of_requests = 50
 # environments to test; comma-separated list. e.g. TRIAS2020, PROD
 environments = OJP20INT
 
-# Type of OJP request: TR10, LIR10, SER10, TIR10, TR20, LIR20, SER20, TIR20, TRIAS2020TR, J-S-TRIPSOD, TRR
+# Type of OJP request: TR10, LIR10, SER10, TIR10, TR20, LIR20, SER20, TIR20, TRIAS2020TR, J-S-TRIPSOD, TRR20
 # append: "+"=test with parameters, "-"=test without parameters (default), "*"= test without and with parameters.
-request_types =  TRR20+
+request_types = TRR20+
 
 # For TR and SER only: use "Geo position" (coordinates) rather than "Stop Place Ref" (didok stops)?
 use_geopos = False

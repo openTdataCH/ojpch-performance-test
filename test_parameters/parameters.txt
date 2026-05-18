@@ -4,14 +4,14 @@
 
 # BASE TEST SETUP
 # number of requests (tests) to perform on each environment
-number_of_requests = 10
+number_of_requests = 50
 
 # environments to test; comma-separated list. e.g. TRIAS2020, PROD
-environments = TRIAS2020, PROD, PROD2.0
+environments = OJP20INT
 
-# Type of OJP request: TR10, LIR10, SER10, TIR10, TR20, LIR20, SER20, TIR20, TRIAS2020TR, J-S-TRIPSOD
+# Type of OJP request: TR10, LIR10, SER10, TIR10, TR20, LIR20, SER20, TIR20, TRIAS2020TR, J-S-TRIPSOD, TRR20
 # append: "+"=test with parameters, "-"=test without parameters (default), "*"= test without and with parameters.
-request_types = TR10, TR20, LIR10, LIR20, SER10, SER20, TIR10, TIR20, TRIAS2020TR
+request_types = TRR20+
 
 # For TR and SER only: use "Geo position" (coordinates) rather than "Stop Place Ref" (didok stops)?
 use_geopos = False
@@ -30,11 +30,11 @@ use_session = True
 save_details = True
 
 # settings for the random number generator; if a "seed" is used, the test run will have same stations in repetition:
-use_random_seed = True
+use_random_seed = False
 random_seed = 42
 
 # time in seconds to wait before sending the next request
-sleep_time = 0.2
+sleep_time = 0.0
 
 
 # DEPARTURE DATE/TIME SETTINGS:
@@ -87,9 +87,12 @@ trias2020tr_include_leg_projection = True
 trias2020tr_include_intermediate_stops = True
 
 # Run test based on a file with given connections, a CSV with fields "Check,From,To,Via" (station names) rather than random:
-use_connections_file = False
+use_connections_file = True
 connections_file = connections.csv
 connections_delimiter = ;
 
 # delete directories of previous tests first
 remove_old_test_directories = False
+
+# if the pre requests for TRR and TIR should be logged
+log_pre_requests = False

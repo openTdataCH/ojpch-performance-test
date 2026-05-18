@@ -34,11 +34,17 @@ ENVIRONMENTS = {
         "apiEndpoint": "https://api.opentransportdata.swiss/trias2020",
         "authBearerKey": "...",
         "supported_requests": {"TRIAS2020TR"}
+    },
+    "TRROnly": {
+        "apiEndpoint": "...",
+        "authBearerKey": "...",
+        "supported_requests": {"TRR20"},
+        "alternateEnvironmentName": "OJP20PROD" # only for TRR and TIR, if envoironment doesn't support a TR, the script will use the alternate environment to make the TR
     }
 }
 
 # URL of the Service Points data file (list of stations/stops in Swiss public transport)
-SP_PERMALINK = "https://opentransportdata.swiss/de/dataset/service-points-actual-date/permalink"
+SP_PERMALINK = "https://data.opentransportdata.swiss/dataset/service-point-v2/resource_permalink/actual-date-swiss-service-point.csv"
 
 # if there exists a local_configuration, it is used and may supersede some of the above constants.
 try:

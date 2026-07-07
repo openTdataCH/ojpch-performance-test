@@ -10,7 +10,7 @@ import requests
 import configuration as config
 from utilities import logging_wrapper as logging
 from utilities import object_store as store
-
+from datetime import datetime as dt
 
 def upload_stats_to_opensearch():
     successful = 0
@@ -47,7 +47,7 @@ def upload_stats_to_opensearch():
 def upload_data_to_opensearch(data):
     headers = {"Content-Type": "application/json"}
     response = requests.post(
-        f"{config.OPENSEARCH['url']}/{config.OPENSEARCH['index']}/_doc/",
+        f"{config.OPENSEARCH['url']}/{config.OPENSEARCH['index']}-{dt.now().isoformat()[:7]}/_doc/",
         headers=headers,
         data=json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False),
         auth=(config.OPENSEARCH['username'], config.OPENSEARCH['password'])
